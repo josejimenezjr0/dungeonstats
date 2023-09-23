@@ -18,6 +18,13 @@ defmodule DungeonStatsWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+
+    live "/games", GameLive.Index, :index
+    live "/games/new", GameLive.Index, :new
+    live "/games/:slug/edit", GameLive.Index, :edit
+
+    live "/games/:slug", GameLive.Show, :show
+    live "/games/:slug/show/edit", GameLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.
