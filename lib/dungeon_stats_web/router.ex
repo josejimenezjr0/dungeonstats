@@ -17,7 +17,7 @@ defmodule DungeonStatsWeb.Router do
   scope "/", DungeonStatsWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    live "/", HomeLive
 
     live "/games", GameLive.Index, :index
     live "/games/new", GameLive.Index, :new
