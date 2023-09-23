@@ -1,4 +1,4 @@
-defmodule DungeonStatsWeb.GameLive.Show do
+defmodule DungeonStatsWeb.GameLive.Master do
   use DungeonStatsWeb, :live_view
 
   alias DungeonStats.Games
@@ -16,7 +16,6 @@ defmodule DungeonStatsWeb.GameLive.Show do
 
     {:noreply,
      socket
-     |> assign(:page_title, page_title(socket.assigns.live_action))
      |> assign(:game, game)}
   end
 
@@ -31,6 +30,10 @@ defmodule DungeonStatsWeb.GameLive.Show do
     |> put_flash(:info, message)}
   end
 
-  defp page_title(:show), do: "Show Game"
-  defp page_title(:edit), do: "Edit Game"
+  @impl
+  def handle_event("alert_minions", _, socket) do
+    game = socket.assigns.game
+    Games.message(game, "Hey you minions this is your dungeon master")
+    {:noreply, socket}
+  end
 end
