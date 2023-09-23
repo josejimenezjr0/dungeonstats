@@ -1,6 +1,6 @@
 <.flash_group flash={@flash} />
 <.header>
-  Game <%= @game.id %>
+  Dungeon Master for Game <%= @game.slug %>
   <:subtitle>This is a game record from your database.</:subtitle>
   <:actions>
     <.link patch={~p"/games/#{@game}/show/edit"} phx-click={JS.push_focus()}>
@@ -14,13 +14,17 @@
   <:item title="Slug"><%= @game.slug %></:item>
 </.list>
 
+<.button phx-click="alert_minions">
+Message Minions
+</.button>
+
 <.back navigate={~p"/games"}>Back to games</.back>
 
 <.modal :if={@live_action == :edit} id="game-modal" show on_cancel={JS.patch(~p"/games/#{@game}")}>
   <.live_component
     module={DungeonStatsWeb.GameLive.FormComponent}
     id={@game.slug}
-    title={@page_title}
+    title="Dungeon Master View"
     action={@live_action}
     game={@game}
     patch={~p"/games/#{@game}"}
