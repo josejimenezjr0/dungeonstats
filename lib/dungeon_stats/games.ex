@@ -35,6 +35,7 @@ defmodule DungeonStats.Games do
       ** (Ecto.NoResultsError)
 
   """
+  def get_game!(id) when is_integer(id), do: Repo.get(Game, id)
   def get_game!(slug), do: Repo.get_by(Game, slug: slug)
 
   @doc """
@@ -100,5 +101,32 @@ defmodule DungeonStats.Games do
   """
   def change_game(%Game{} = game, attrs \\ %{}) do
     Game.changeset(game, attrs)
+  end
+
+
+  def subscribe(%Game{id: id}) do
+    Phoenix.PubSub.subscribe(DungeonStats.PubSub, "game:#{id}")
+  end
+
+  # Send out updated game state
+  def notify(%Game{id: id} = game) do
+    Phoenix.PubSub.broadcast!(
+      DungeonStats.PubSub,
+      "game:#{id}",
+      {__MODULE__, game}
+    )
+
+    game
+  end
+
+  # Send message to everyone in a game
+  def message(%Game{id: id} = game, message) do
+    Phoenix.PubSub.broadcast!(
+      DungeonStats.PubSub,
+      "game:#{id}",
+      {:game_message, message}
+    )
+
+    game
   end
 end

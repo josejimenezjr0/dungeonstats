@@ -25,6 +25,7 @@ defmodule DungeonStatsWeb.Router do
 
     live "/games/:slug", GameLive.Show, :show
     live "/games/:slug/show/edit", GameLive.Show, :edit
+    live "/games/:slug/master", GameLive.Master
   end
 
   # Other scopes may use custom stacks.
